@@ -1,6 +1,15 @@
-﻿
+﻿@using System.Web.Configuration
 @{
     ViewBag.Title = "Index";
+
+    //https://developers.google.com/identity/protocols/OAuth2UserAgent#formingtheurl
+
+    var googleModel = new
+    {
+        EndPoint = WebConfigurationManager.AppSettings["oauth2-google-endpoint"],
+        ClientId = WebConfigurationManager.AppSettings["oauth2-google-clientId"],
+        Secret = WebConfigurationManager.AppSettings["oauth2-google-secret"]
+    };
 }
 <div ng-controller="googleViewModel">
     <div class="page-header">
@@ -17,10 +26,13 @@
         <p>{{name}}</p>
     </div>
 
-    <button class="btn btn-default">login</button>
+    <button class="btn btn-default" ng-click="login()">login</button>
 
 </div>
 
 @section script{
     <script src="~/scripts/app/app.js"></script>
+    <script>
+        var oauth2GoogleClientId = '@(googleModel.ClientId)';
+    </script>
 }
